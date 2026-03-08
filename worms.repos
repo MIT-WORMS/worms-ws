@@ -7,7 +7,3 @@ repositories:
         type: git
         url: https://github.com/MIT-WORMS/worms-cortex.git
         version: main
-    worms-sim:
-        type: git
-        url: https://github.com/MIT-WORMS/worms-sim.git
-        version: main
