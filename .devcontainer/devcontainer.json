@@ -12,7 +12,7 @@
     "workspaceMount": "source=${localWorkspaceFolder},target=/home/worms-ws,type=bind",
     "customizations": {
         "vscode": {
-            "extensions":[
+            "extensions": [
                 // Python and linting
                 "ms-python.python",
                 "charliermarsh.ruff",
@@ -46,7 +46,7 @@
     },
     "containerEnv": {
         "DISPLAY": "${env:DISPLAY}",
-        "ROS_LOCALHOST_ONLY": "1",
+        "ROS_AUTOMATIC_DISCOVERY_RANGE": "LOCALHOST",
         "ROS_DOMAIN_ID": "42"
     },
     "runArgs": [
