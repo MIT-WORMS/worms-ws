@@ -66,3 +66,42 @@ If everything worked, you should see a GUI application open on your screen.
 When actually developing code in the WORMS ecosystem, you should always be inside of the dev container. The code you will be working on is located inside of the `src` folder. Each repository within here is another git repository of packaged code. 
 
 You should create individual branches in each of these repositories and commit your changes there, _you should not have to push anything to this repository itself._ There is a tutorial in the WORMS wiki that covers some basic coding practices.
+
+## Deployment
+
+We deploy the same docker image on the actual WORMS computers (excluding some development dependencies). For a first time set up you will have to install docker, but after that deploying the newest changes is just running a single script. 
+
+### Setup
+
+For the first time setup you need to start by installing docker and rebooting so changes take effect
+
+```bash
+sudo apt update && sudo apt upgrade -y
+curl -fsSL https://get.docker.com | sh
+sudo usermod -aG docker $USER
+reboot
+```
+
+Now after logging back in, clone the repository and manually trigger the first deployment
+
+```bash
+cd ~
+git clone https://github.com/MIT-WORMS/worms-ws.git
+cd worms-ws
+./deploy.sh
+```
+
+### Syncing Changes
+
+Once your changes have been merged into main on the other repositories, you just need to run the deployment script again
+
+```bash
+cd ~/worms-ws
+./deploy.sh
+```
+
+We don't currently have a launch file that is run on boot, so you can manually enter the docker and trigger one. The below command will place you in a terminal session inside of the docker image
+
+```bash
+docker compose exec worms bash
+```

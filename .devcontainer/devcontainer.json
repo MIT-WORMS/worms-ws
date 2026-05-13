@@ -2,17 +2,16 @@
     "name": "WORMS Dev Container",
     "privileged": true,
     "remoteUser": "worms",
+    "initializeCommand": "docker build -f ${localWorkspaceFolder}/docker/base.Dockerfile -t worms-ros-jazzy-runtime:latest ${localWorkspaceFolder}",
     "build": {
-        "dockerfile": "Dockerfile",
-        "args": {
-            "USERNAME": "worms"
-        }
+        "dockerfile": "../docker/dev.Dockerfile",
+        "context": ".."
     },
     "workspaceFolder": "/home/worms-ws",
-    "workspaceMount": "source=${localWorkspaceFolder},target=/home/worms-ws,type=bind",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/home/worms-ws,type=bind,consistency=cached",
     "customizations": {
         "vscode": {
-            "extensions":[
+            "extensions": [
                 // Python and linting
                 "ms-python.python",
                 "charliermarsh.ruff",
@@ -25,27 +24,47 @@
                 "redhat.vscode-yaml",
                 // Works well with git
                 "eamodio.gitlens"
-            ]
-        },
-        "settings": {
-            "clangd.arguments": [
-                "--background-index"
             ],
-            // Python linting settings
-            "editor.defaultFormatter": "charliermarsh.ruff",
-            "ruff.enable": true,
-            "ruff.lint.enable": true,
-            "ruff.lineLength": null,
-            "editor.formatOnSave": true,
-            // Some type checking
-            "python.analysis.typeCheckingMode": "standard",
-            // Standardize editor settings
-            "editor.insertSpaces": true,
-            "files.encoding": "utf8"
+            "settings": {
+                "clangd.arguments": [
+                    "--background-index",
+                    "--compile-commands-dir=/home/worms-ws/build"
+                ],
+                // Cpp settings conflict with clangd
+                "C_Cpp.intelliSenseEngine": "disabled",
+                "C_Cpp.formatting": "disabled",
+                // Formatters for each language
+                "[cpp]": {
+                    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd",
+                    "editor.formatOnSave": true
+                },
+                "[c]": {
+                    "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd",
+                    "editor.formatOnSave": true
+                },
+                "[python]": {
+                    "editor.defaultFormatter": "charliermarsh.ruff",
+                    "editor.formatOnSave": true
+                },
+                "[yaml]": {
+                    "editor.defaultFormatter": "redhat.vscode-yaml",
+                    "editor.formatOnSave": true
+                },
+                // Python linting settings
+                "ruff.enable": true,
+                "ruff.lint.enable": true,
+                "ruff.lineLength": null,
+                "editor.formatOnSave": true,
+                // Some type checking
+                "python.analysis.typeCheckingMode": "standard",
+                // Standardize editor settings
+                "editor.insertSpaces": true,
+                "files.encoding": "utf8"
+            }
         }
     },
     "containerEnv": {
-        "DISPLAY": "${env:DISPLAY}",
+        "DISPLAY": "${localEnv:DISPLAY}",
         "ROS_LOCALHOST_ONLY": "1",
         "ROS_DOMAIN_ID": "42"
     },
@@ -56,5 +75,6 @@
         "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached",
         "source=/dev/dri,target=/dev/dri,type=bind,consistency=cached"
     ],
-    "postCreateCommand": "mkdir -p src && vcs import src < worms.repos || true && rosdep update && rosdep install --from-paths src --ignore-src -y"
+    // Update deps, import repos, install dependencies
+    "postCreateCommand": "bash -lc 'mkdir -p src && vcs import --skip-existing src < worms.repos || true && rosdep update && rosdep install --from-paths src --ignore-src -y'"
 }
