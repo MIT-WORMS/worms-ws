@@ -29,10 +29,30 @@
         },
         "settings": {
             "clangd.arguments": [
-                "--background-index"
+                "--background-index",
+                "--compile-commands-dir=/home/worms-ws/build"
             ],
+            // Cpp settings conflict with clangd
+            "C_Cpp.intelliSenseEngine": "disabled",
+            "C_Cpp.formatting": "disabled",
+            // Formatters for each language
+            "[cpp]": {
+                "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd",
+                "editor.formatOnSave": true
+            },
+            "[c]": {
+                "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd",
+                "editor.formatOnSave": true
+            },
+            "[python]": {
+                "editor.defaultFormatter": "charliermarsh.ruff",
+                "editor.formatOnSave": true
+            },
+            "[yaml]": {
+                "editor.defaultFormatter": "redhat.vscode-yaml",
+                "editor.formatOnSave": true
+            },
             // Python linting settings
-            "editor.defaultFormatter": "charliermarsh.ruff",
             "ruff.enable": true,
             "ruff.lint.enable": true,
             "ruff.lineLength": null,
@@ -56,5 +76,6 @@
         "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached",
         "source=/dev/dri,target=/dev/dri,type=bind,consistency=cached"
     ],
-    "postCreateCommand": "mkdir -p src && vcs import src < worms.repos || true && rosdep update && rosdep install --from-paths src --ignore-src -y"
+    // Update deps, import repos, install dependencies
+    "postCreateCommand": "sudo apt-get update && mkdir -p src && vcs import src < worms.repos || true && rosdep update && rosdep install --from-paths src --ignore-src -y"
 }
