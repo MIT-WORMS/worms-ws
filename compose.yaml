@@ -24,6 +24,7 @@ services:
       TERM: xterm-256color
     command: >
       bash -lc "
+        rm -f /home/worms-ws/.ready &&
         source /opt/ros/$$ROS_DISTRO/setup.bash &&
         mkdir -p src &&
         vcs import src < worms.repos &&
@@ -33,5 +34,6 @@ services:
         rosdep install --from-paths src --ignore-src -y &&
         colcon build &&
         source /home/worms-ws/install/setup.bash &&
+        touch /home/worms-ws/.ready &&
         sleep infinity
       "

@@ -82,13 +82,19 @@ sudo usermod -aG docker $USER
 reboot
 ```
 
-Now after logging back in, clone the repository and manually trigger the first deployment
+Now after logging back in, clone and enter the repository.
 
 ```bash
 cd ~
 git clone https://github.com/MIT-WORMS/worms-ws.git
 cd worms-ws
-./deploy.sh
+```
+
+For the first time setup, we have two scripts to run. One initializes a system service that monitors the docker container; the green LED on the Pi will flash well it is building, and stay solid when it is ready. The second script builds the container for the first time and sets it to auto rebuild on startup. 
+
+```bash
+./deploy/setup_monitor.sh
+./deploy/deploy.sh
 ```
 
 ### Syncing Changes
