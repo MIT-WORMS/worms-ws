@@ -25,7 +25,11 @@ services:
     command: >
       bash -lc "
         source /opt/ros/$$ROS_DISTRO/setup.bash &&
-        rosdep update &&
+        mkdir -p src &&
+        vcs import src < worms.repos &&
+        vcs pull src &&
+        sudo apt-get update &&
+        rosdep update || true &&
         rosdep install --from-paths src --ignore-src -y &&
         colcon build &&
         source /home/worms-ws/install/setup.bash &&
