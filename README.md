@@ -103,7 +103,7 @@ Once your changes have been merged into main on the other repositories, you just
 
 ```bash
 cd ~/worms-ws
-./deploy.sh
+./deploy/deploy.sh
 ```
 
 We don't currently have a launch file that is run on boot, so you can manually enter the docker and trigger one. The below command will place you in a terminal session inside of the docker image
