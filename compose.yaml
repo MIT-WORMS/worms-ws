@@ -27,6 +27,7 @@ services:
         source /opt/ros/$$ROS_DISTRO/setup.bash &&
         mkdir -p src &&
         vcs import --skip-existing src < worms.repos &&
+        sudo apt-get update &&
         rosdep update || true &&
         rosdep install --from-paths src --ignore-src -y &&
         colcon build &&
