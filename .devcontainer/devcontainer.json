@@ -59,7 +59,14 @@
                 "python.analysis.typeCheckingMode": "standard",
                 // Standardize editor settings
                 "editor.insertSpaces": true,
-                "files.encoding": "utf8"
+                "files.encoding": "utf8",
+                // Lets vscode discover all repositories
+                "git.repositoryScanMaxDepth": -1,
+                "git.repositoryScanIgnoredFolders": [
+                    "build",
+                    "install",
+                    "log"
+                ]
             }
         }
     },
