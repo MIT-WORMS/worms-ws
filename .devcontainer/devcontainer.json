@@ -65,8 +65,11 @@
     },
     "containerEnv": {
         "DISPLAY": "${localEnv:DISPLAY}",
-        "ROS_LOCALHOST_ONLY": "1",
-        "ROS_DOMAIN_ID": "42"
+        "ROS_AUTOMATIC_DISCOVERY_RANGE": "LOCALHOST",
+        "ROS_DOMAIN_ID": "42",
+        // Formatting for the ROS logs to make them more readable
+        "RCUTILS_COLORIZED_OUTPUT": "1",
+        "RCUTILS_CONSOLE_OUTPUT_FORMAT": "\r\u001b[2K\u001b[2m[{severity}]  {name}  \u001b[3m{file_name}:{line_number}\u001b[23m\n\r\u001b[2K\u001b[2m└─\u001b[22m {message}\u001b[0m"
     },
     "runArgs": [
         "--net=host"
