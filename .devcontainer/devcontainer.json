@@ -19,7 +19,9 @@
                 "llvm-vs-code-extensions.vscode-clangd",
                 "ms-vscode.cmake-tools",
                 // ROS2 specific
-                "ranch-hand-robotics.rde-pack",
+                "ranch-hand-robotics.rde-ros-2",
+                // For previewing assets
+                "morningfrog.urdf-visualizer",
                 // Helps with formatting YAML
                 "redhat.vscode-yaml",
                 // Works well with git
@@ -44,7 +46,11 @@
                 },
                 "[python]": {
                     "editor.defaultFormatter": "charliermarsh.ruff",
-                    "editor.formatOnSave": true
+                    "editor.formatOnSave": true,
+                    "editor.codeActionsOnSave": {
+                        "source.fixAll.ruff": "always",
+                        "source.organizeImports.ruff": "always"
+                    }
                 },
                 "[yaml]": {
                     "editor.defaultFormatter": "redhat.vscode-yaml",
