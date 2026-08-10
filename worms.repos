@@ -3,6 +3,14 @@ repositories:
         type: git
         url: https://github.com/MIT-WORMS/worms.git
         version: main
+    worms-assets:
+        type: git
+        url: https://github.com/MIT-WORMS/worms-assets.git
+        version: main
+    worms-arthron:
+        type: git
+        url: https://github.com/MIT-WORMS/worms-arthron.git
+        version: main
     worms-cortex:
         type: git
         url: https://github.com/MIT-WORMS/worms-cortex.git

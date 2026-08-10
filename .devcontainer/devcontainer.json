@@ -19,7 +19,9 @@
                 "llvm-vs-code-extensions.vscode-clangd",
                 "ms-vscode.cmake-tools",
                 // ROS2 specific
-                "ranch-hand-robotics.rde-pack",
+                "ranch-hand-robotics.rde-ros-2",
+                // For previewing assets
+                "morningfrog.urdf-visualizer",
                 // Helps with formatting YAML
                 "redhat.vscode-yaml",
                 // Works well with git
@@ -44,7 +46,11 @@
                 },
                 "[python]": {
                     "editor.defaultFormatter": "charliermarsh.ruff",
-                    "editor.formatOnSave": true
+                    "editor.formatOnSave": true,
+                    "editor.codeActionsOnSave": {
+                        "source.fixAll.ruff": "always",
+                        "source.organizeImports.ruff": "always"
+                    }
                 },
                 "[yaml]": {
                     "editor.defaultFormatter": "redhat.vscode-yaml",
@@ -59,14 +65,24 @@
                 "python.analysis.typeCheckingMode": "standard",
                 // Standardize editor settings
                 "editor.insertSpaces": true,
-                "files.encoding": "utf8"
+                "files.encoding": "utf8",
+                // Lets vscode discover all repositories
+                "git.repositoryScanMaxDepth": -1,
+                "git.repositoryScanIgnoredFolders": [
+                    "build",
+                    "install",
+                    "log"
+                ]
             }
         }
     },
     "containerEnv": {
         "DISPLAY": "${localEnv:DISPLAY}",
-        "ROS_LOCALHOST_ONLY": "1",
-        "ROS_DOMAIN_ID": "42"
+        "ROS_AUTOMATIC_DISCOVERY_RANGE": "LOCALHOST",
+        "ROS_DOMAIN_ID": "42",
+        // Formatting for the ROS logs to make them more readable
+        "RCUTILS_COLORIZED_OUTPUT": "1",
+        "RCUTILS_CONSOLE_OUTPUT_FORMAT": "\r\u001b[2K\u001b[2m[{severity}]  {name}  \u001b[3m{file_name}:{line_number}\u001b[23m\n\r\u001b[2K\u001b[2m└─\u001b[22m {message}\u001b[0m"
     },
     "runArgs": [
         "--net=host"

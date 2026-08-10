@@ -11,6 +11,7 @@ SHELL ["/bin/bash", "-c"]
 RUN apt-get update && apt-get install -y \
     sudo \
     git \
+    git-lfs \
     # ROS2 build
     build-essential \
     cmake \
@@ -22,19 +23,20 @@ RUN apt-get update && apt-get install -y \
     # Dependency management
     python3-vcstool \
     python3-rosdep \
+    && git lfs install --system \
     && rm -rf /var/lib/apt/lists/*
 
 # Create the worms user
 RUN if getent group ${USER_GID} > /dev/null; then \
-        groupmod --new-name ${USERNAME} $(getent group ${USER_GID} | cut -d: -f1); \
+    groupmod --new-name ${USERNAME} $(getent group ${USER_GID} | cut -d: -f1); \
     else \
-        groupadd --gid ${USER_GID} ${USERNAME}; \
+    groupadd --gid ${USER_GID} ${USERNAME}; \
     fi \
     && if getent passwd ${USER_UID} > /dev/null; then \
-        usermod --login ${USERNAME} --home /home/${USERNAME} --move-home \
-            $(getent passwd ${USER_UID} | cut -d: -f1); \
+    usermod --login ${USERNAME} --home /home/${USERNAME} --move-home \
+    $(getent passwd ${USER_UID} | cut -d: -f1); \
     else \
-        useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME}; \
+    useradd --uid ${USER_UID} --gid ${USER_GID} -m ${USERNAME}; \
     fi \
     && usermod -aG dialout,plugdev,video ${USERNAME} \
     && echo "${USERNAME} ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/${USERNAME} \
